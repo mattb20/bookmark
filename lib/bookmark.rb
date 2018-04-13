@@ -22,19 +22,6 @@ class Bookmark
     result.map { |bookmark| "<a href=" + bookmark['url'] + ">" + bookmark['title'] + "</a>" + "<input type='submit' value = Delete" + " name = " + bookmark['title'] + ">" }
   end
 
-  def self.manage(bookmark)
-    # Determines validity and whether create or update
-  end
-
-  def self.create(bookmark)
-    if validate(bookmark[:url]) then
-      # Handle updates as updating with same url will result in validate_url returning duplicate error
-      # Create bookmark
-      return "Bookmark created successfully"
-    else
-      return @@message
-    end
-
     # return false unless is_url?(link) && title?(title)
     # if ENV['RACK_ENV'] == 'test'
     #     connection = PG.connect(dbname: 'bookmark_manager_test')
@@ -50,7 +37,6 @@ class Bookmark
     # end
 
     # result = connection.exec('SELECT * FROM bookmarks')
-  end
   def self.url
     if ENV['RACK_ENV'] == 'test'
       connection = PG.connect(dbname: 'bookmark_manager_test')
@@ -71,7 +57,24 @@ class Bookmark
 
   end
 
-  private
+  def self.manage(bookmark)
+    # Determines validity and whether create or update
+    # If bookmark is valid:
+  end
+
+  def self.create(bookmark)
+    if validate(bookmark[:url]) then
+      # Handle updates as updating with same url will result in validate_url returning duplicate error
+      # Create bookmark
+      return "Bookmark created successfully"
+    else
+      return @@message
+    end
+  end
+
+  def self.is_duplicate?(url)
+
+  end
 
   def self.validate(bookmark)
     if bookmark.class != Hash then
@@ -84,17 +87,12 @@ class Bookmark
     end
   end
 
-  def self.is_not_duplicate?(url)
-
-  end
-
   def self.is_valid_url?(url)
     url =~ /\A#{URI.regexp(%w[http https])}\z/ ? true : false
   end
 
   def self.is_valid_title?(title)
     return title.length > 0 && title.length <= 60 ? true : false
-
-
   end
+
 end

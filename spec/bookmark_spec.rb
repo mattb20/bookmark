@@ -43,31 +43,32 @@ describe Bookmark do
     it 'returns true if there is a title ' do
       expect(Bookmark.is_valid_title?('title')).to eq true
     end
+
     it 'returns false if there is not a title' do
-
       expect(Bookmark.is_valid_title?('')).to eq false
-
     end
-    it 'returns false if title is longer than 60 chars (database field length)' do
 
+    it 'returns false if title is longer than 60 chars (database field length)' do
       title = ''
       61.times do title.concat('a') end
-
       expect(Bookmark.is_valid_title? title).to eq false
-
-
     end
   end
 
   describe '.is_valid_url?' do
-    it 'returns false if not given a valid URL' do
+    it 'returns true if given a valid URL' do
+      @valid_url = ["http://google.com","google.com","mail.google.com","google.co.uk"]
+      results = @valid_url.map { |url| Bookmark.is_valid_url?(url) }
+      expect(results).to all eq true
+    end
+
+    it 'returns false if not given a working URL' do
       #  need to send as it is private method
       expect(Bookmark.is_valid_url?('google')).to eq false
     end
-    it 'returns true if given a valid URL' do
-      @valid_url = ["http://google.com","google.com","mail.google.com","google.co.uk"]
-      results = @valid_url.map { |valid_url| Bookmark.is_valid_url?(valid_url) }
-      expect(results).to all eq true
+
+    it 'returns false if URL is too long' do
+      
     end
   end
 

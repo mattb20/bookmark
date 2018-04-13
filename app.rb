@@ -25,6 +25,7 @@ class BookmarkManager < Sinatra::Base
 
   post '/bookmarks/new' do
     flash[:message] = Bookmark.manage(params)
+    #determine whether to add/update
     erb :"bookmarks/new"
     redirect '/bookmarks'
   end

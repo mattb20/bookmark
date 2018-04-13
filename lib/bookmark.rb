@@ -2,6 +2,7 @@ require 'pg'
 require 'URI'
 
 class Bookmark
+
   def self.all
     if ENV['RACK_ENV'] == 'test'
       connection = PG.connect(dbname: 'bookmark_manager_test')
@@ -10,6 +11,7 @@ class Bookmark
     end
     result = connection.exec('SELECT * FROM bookmarks')
     result.map { |bookmark| bookmark['title'] }
+
   end
   def self.display
     if ENV['RACK_ENV'] == 'test'
@@ -60,6 +62,14 @@ class Bookmark
   def self.manage(bookmark)
     # Determines validity and whether create or update
     # If bookmark is valid:
+
+    if Bookmark.validate(bookmark) then
+      unless Bookmark.is_duplicate?(bookmark[:url])
+        return 'add'
+      else
+        return 'update'
+      end
+    end
   end
 
   def self.create(bookmark)

@@ -68,7 +68,7 @@ describe Bookmark do
     end
 
     it 'returns false if URL is too long' do
-      
+
     end
   end
 
@@ -92,11 +92,19 @@ describe Bookmark do
 
   describe '.manage' do
 
-    it 'returns the string add if bookmark is a unique and valid URL' do
+    it 'returns the string: add if bookmark is a unique and valid URL' do
+      expect(Bookmark.manage({:url => "http://google.com", :title => "Google"})).to eq 'add'
+
 
     end
 
-    it 'makes a call to .is_not_duplicate? if given a valid URL and title' do
+    it 'makes a call to .is_duplicate? if given a valid URL and title' do
+      bookmark = {:url => "http://google.com", :title => "Google"}
+
+      Bookmark.manage(bookmark)
+
+      expect(Bookmark).to receive(:is_duplicate?).with(bookmark[:url])
+
 
     end
 

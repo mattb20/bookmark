@@ -11,12 +11,6 @@ class BookmarkManager < Sinatra::Base
     'Hello World'
   end
 
-  post '/bookmarks' do
-    p params
-    flash[:message] = Bookmark.create(params)
-    redirect '/bookmarks'
-  end
-
   get '/bookmarks' do
     @bookmarks = Bookmark.all
     @urls = Bookmark.display
@@ -28,9 +22,9 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks/new' do
+    flash[:message] = Bookmark.manage(params)
     erb :"bookmarks/new"
     redirect '/bookmarks'
-
   end
 
   post '/bookmarks/delete' do

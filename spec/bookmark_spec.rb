@@ -51,8 +51,15 @@ describe'.delete' do
 end
 
 describe '.is_url' do
+  before(:all) do
+    valid_url[] << "http://google.com"
+    valid_url[] << "google.com"
+    valid_url[] << "mail.google.com"
+    valid_url[] << "google.co.uk"
+    invalid_url[] << "googlecom"
+  end
   it 'returns false if not given a valid URL' do
-
+    #  need to send as it is private method
     expect(Bookmark.is_url?('google')).to eq false
 
   end
@@ -60,26 +67,21 @@ describe '.is_url' do
 end
 
 describe '.validate' do
- it 'throws an error if not passed a hash' do
+  before(:all) do
+    valid_bookmark = {:url => "http://google.com", :title => "Google"}
+    invalid_bookmark = {:url => "http://google.com", :title => ""}
+  end
+  it 'throws an error if not passed a hash' do
+    expect(Bookmark.validate('hello')).to raise_error 'Hash is not being passed in'
+  end
 
-   expect(Bookmark.validate('hello')).to raise_error 'Hash is not being passed in'
+  it 'returns false if given an invalid URL or title' do
+    expect(Bookmark.validate(invalid_bookmark)).to return false
+  end
 
-
- end
-end
-
-
-
- it 'returns false if given an invalid URL or title' do
-
- end
-
-
-
- it 'returns true if passed a valid URL and a title' do
-
- end
-
+  it 'returns true if passed a valid URL and a title' do
+    expect(Bookmark.validate(valid_bookmark)).to return true
+  end
 end
 
 

@@ -20,7 +20,14 @@ class Bookmark
     result.map { |bookmark| "<a href=" + bookmark['url'] + ">" + bookmark['title'] + "</a>" + "<input type='submit' value = Delete" + " name = " + bookmark['title'] + ">" }
   end
 
-  def self.create(link, title)
+  def self.create(bookmark)
+    if validate_url(bookmark[:url]) then
+      # Handle updates as updating with same url will result in validate_url returning duplicate error
+      # Create bookmark
+      return "Bookmark created successfully"
+    else 
+      return @@message
+    end
     return false unless is_url?(link) && title?(title)
     if ENV['RACK_ENV'] == 'test'
         connection = PG.connect(dbname: 'bookmark_manager_test')
@@ -58,9 +65,27 @@ class Bookmark
 
   private
 
+  def self.validate_url(url)
+    # if valid: return true else false
+    if is_url?(url) then
+      if is_duplicate?(url) then
+        @@message = "Duplicate URL"
+        return false
+      else return true
+      end
+    end
+    @@message = "Invalid url"
+    return false
+  end
+
+  def self.is_duplicate?(url)
+
+  end
+
   def self.is_url?(url)
     url =~ /\A#{URI.regexp(%w[http https])}\z/
   end
+
   def self.title?(title)
     if title.length > 0
       return true

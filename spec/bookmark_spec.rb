@@ -36,12 +36,12 @@ describe Bookmark do
       expect(Bookmark.title?('title')).to eq true
     end
 end
-describe '.url' do
-  it 'returns the url in a string form' do
-    Bookmark.create('http://www.test5.com', 'test5')
-    expect(Bookmark.url.last).to eq 'http://www.test5.com'
-  end
-end
+# describe '.url' do
+#   it 'returns the url in a string form' do
+#     Bookmark.create('http://www.test5.com', 'test5')
+#     expect(Bookmark.url.last).to eq 'http://www.test5.com'
+#   end
+# end
 describe'.delete' do
   it 'deletes a bookmark' do
     Bookmark.create('http://www.test10.com', 'test10')
@@ -49,4 +49,70 @@ describe'.delete' do
     expect(Bookmark.all).not_to include "test10"
   end
 end
+
+describe '.is_url' do
+  it 'returns false if not given a valid URL' do
+
+    expect(Bookmark.is_url?('google')).to eq false
+
+  end
+
+end
+
+describe '.validate' do
+ it 'throws an error if not passed a hash' do
+
+   expect(Bookmark.validate('hello')).to raise_error 'Hash is not being passed in'
+
+
+ end
+end
+
+
+
+ it 'returns false if given an invalid URL or title' do
+
+ end
+
+
+
+ it 'returns true if passed a valid URL and a title' do
+
+ end
+
+end
+
+
+
+
+describe '.manage' do
+
+ it 'returns the string add if bookmark is a unique and valid URL' do
+
+end
+
+
+
+ it 'makes a call to .is_not_duplicate? if given a valid URL and title' do
+
+ end
+
+
+ it 'if .is_not_duplicate? returns false and it is a duplicate title it returns the string update'  do
+
+ end
+
+ it 'returns add if there is a title and .is_not_duplicate returns true' do
+
+ end
+
+ it 'returns the string create if .is_not_duplicate returns true and ' do
+
+end
+
+
+
+
+
+
 end

@@ -2,6 +2,8 @@ require 'sinatra/base'
 require './lib/bookmark'
 require 'sinatra/flash'
 
+#add route for update and add, change new to manage
+
 class BookmarkManager < Sinatra::Base
 
   register Sinatra::Flash

@@ -25,11 +25,11 @@ class Bookmark
   end
 
   def self.create(bookmark)
-    if validate_url(bookmark[:url]) then
+    if validate(bookmark[:url]) then
       # Handle updates as updating with same url will result in validate_url returning duplicate error
       # Create bookmark
       return "Bookmark created successfully"
-    else 
+    else
       return @@message
     end
 
@@ -60,23 +60,23 @@ class Bookmark
   end
 
   def self.delete(title)
-      if ENV['RACK_ENV'] == 'test'
-         connection = PG.connect(dbname: 'bookmark_manager_test')
-       else
-         connection = PG.connect(dbname: 'bookmark_manager')
-      end
-    connection.exec("DELETE FROM BOOKMARKS WHERE title = '#{title}'")
+    if ENV['RACK_ENV'] == 'test'
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+    else
+      connection = PG.connect(dbname: 'bookmark_manager')
+    end
+      connection.exec("DELETE FROM BOOKMARKS WHERE title = '#{title}'")
 
   end
 
   private
 
-  def self.validate_url(url)
+  def self.validate(url)
     # if valid: return true else false
     if is_url?(url) then
       if is_not_duplicate?(url) then
         return true
-      else 
+      else
         @@message = "Duplicate URL"
         return false
       end

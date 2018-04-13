@@ -1,4 +1,5 @@
 require 'pg'
+require 'URI'
 
 class Bookmark
   def self.all
@@ -87,7 +88,7 @@ class Bookmark
   end
 
   def self.is_valid_url?(url)
-    url =~ /\A#{URI.regexp(%w[http https])}\z/
+    url =~ /\A#{URI.regexp(%w[http https])}\z/ ? true : false
   end
 
   def self.is_valid_title?(title)

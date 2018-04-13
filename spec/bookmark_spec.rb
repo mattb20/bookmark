@@ -52,18 +52,15 @@ describe Bookmark do
   end
     
   describe '.is_valid_url?' do
-    before(:all) do
-      valid_url[] << "http://google.com"
-      valid_url[] << "google.com"
-      valid_url[] << "mail.google.com"
-      valid_url[] << "google.co.uk"
-      invalid_url[] << "googlecom"
-    end
     it 'returns false if not given a valid URL' do
       #  need to send as it is private method
-      expect(Bookmark.is_url?('google')).to eq false
+      expect(Bookmark.is_valid_url?('google')).to eq false
     end
-    
+    it 'returns true if given a valid URL' do
+      @valid_url = ["http://google.com","google.com","mail.google.com","google.co.uk"]
+      results = @valid_url.map { |valid_url| Bookmark.is_valid_url?(valid_url) }
+      expect(results).to all eq true
+    end
   end
     
   describe '.validate' do

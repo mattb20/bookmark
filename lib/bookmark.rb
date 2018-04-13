@@ -92,8 +92,8 @@ class Bookmark
   end
 
   def self.is_valid_title?(title)
-    if title.length > 0
-      return true
-    end
+    return title.length > 0 && title.length <= 60 ? true : false
+
+
   end
 end

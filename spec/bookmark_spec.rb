@@ -45,12 +45,20 @@ describe Bookmark do
     end
     it 'returns false if there is not a title' do
 
+      expect(Bookmark.is_valid_title?('')).to eq false
+
     end
     it 'returns false if title is longer than 60 chars (database field length)' do
 
+      title = ''
+      61.times do title.concat('a') end
+
+      expect(Bookmark.is_valid_title? title).to eq false
+
+
     end
   end
-    
+
   describe '.is_valid_url?' do
     it 'returns false if not given a valid URL' do
       #  need to send as it is private method
@@ -62,7 +70,7 @@ describe Bookmark do
       expect(results).to all eq true
     end
   end
-    
+
   describe '.validate' do
     before(:all) do
       @valid_bookmark = {:url => "http://google.com", :title => "Google"}
@@ -71,36 +79,36 @@ describe Bookmark do
     it 'throws an error if not passed a hash' do
       expect{Bookmark.validate('hello')}.to raise_error ArgumentError
     end
-  
+
     it 'returns false if given an invalid URL or title' do
       expect(Bookmark.validate(@invalid_bookmark)).to eq false
     end
-  
+
     it 'returns true if passed a valid URL and a valid title' do
       expect(Bookmark.validate(@valid_bookmark)).to eq true
     end
   end
-    
+
   describe '.manage' do
-  
+
     it 'returns the string add if bookmark is a unique and valid URL' do
-  
+
     end
 
     it 'makes a call to .is_not_duplicate? if given a valid URL and title' do
-  
+
     end
-  
+
     it 'if .is_not_duplicate? returns false and it is a duplicate title it returns the string update'  do
-  
+
     end
-  
+
     it 'returns add if there is a title and .is_not_duplicate returns true' do
-  
+
     end
-  
+
     it 'returns the string create if .is_not_duplicate returns true and ' do
-    
+
     end
   end
 end

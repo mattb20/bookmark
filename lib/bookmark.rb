@@ -71,29 +71,26 @@ class Bookmark
 
   private
 
-  def self.validate(url)
-    # if valid: return true else false
-    if is_url?(url) then
-      if is_not_duplicate?(url) then
-        return true
-      else
-        @@message = "Duplicate URL"
-        return false
-      end
+  def self.validate(bookmark)
+    if bookmark.class != Hash then
+      raise ArgumentError, 'Hash is not being passed in'
     end
-    @@message = "Invalid url"
-    return false
+    if is_valid_url?(bookmark[:url]) && is_valid_title?(bookmark[:title]) then
+      return true
+    else
+      return false
+    end
   end
 
   def self.is_not_duplicate?(url)
 
   end
 
-  def self.is_url?(url)
+  def self.is_valid_url?(url)
     url =~ /\A#{URI.regexp(%w[http https])}\z/
   end
 
-  def self.title?(title)
+  def self.is_valid_title?(title)
     if title.length > 0
       return true
     end

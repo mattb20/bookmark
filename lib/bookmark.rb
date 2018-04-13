@@ -17,6 +17,7 @@ class Bookmark
     else
       connection = PG.connect(dbname: 'bookmark_manager')
     end
+
     result = connection.exec('SELECT * FROM bookmarks')
     result.map { |bookmark| "<a href=" + bookmark['url'] + ">" + bookmark['title'] + "</a>" + "<input type='submit' value = Delete" + " name = " + bookmark['title'] + ">" }
   end
